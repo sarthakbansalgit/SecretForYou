@@ -1,0 +1,112 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Heart | Our Love Story</title>
+    <link href="css/default.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/garden.js"></script>
+    <script type="text/javascript" src="js/functions.js"></script>
+</head>
+<body class="heart-page">
+    <a class="back-to-gallery" href="index.html">← Back to our timeline</a>
+    <header class="heart-heading">
+        <span class="heart-eyebrow">OUR FAVORITE CHAPTER</span>
+        <h1>A heart made for <em>us</em></h1>
+        <p>Watch our little garden bloom.</p>
+        <a class="heart-scroll-cue" href="#loveHeart">
+            <span>SCROLL TO THE HEART</span>
+            <strong aria-hidden="true">↓</strong>
+        </a>
+    </header>
+    <div id="mainDiv">
+        <div id="content">
+            <div id="code" class="love-letter-code">
+                <span class="letter-kicker">A little note from my heart</span><br>
+                <span class="letter-line">Aayushi,</span><br>
+                <span class="letter-line">you are the softest part of my every day.</span><br>
+                <span class="letter-line">In your smile, I found my favorite place</span><br>
+                <span class="letter-line">in your presence, I found home.</span><br>
+                <span class="letter-line">So yes, I have fallen for you—</span><br>
+                <span class="letter-line">not just once, but a little more</span><br>
+                <span class="letter-line">with every sunrise, every laugh,</span><br>
+                <span class="letter-line">and every quiet moment we share.</span><br>
+                <span class="letter-ending">If life is a story, you are my favorite chapter. and always will</span>
+            </div>
+            <div id="loveHeart">
+                <canvas id="garden"></canvas>
+                <div id="words">
+                    <div id="messages">
+                        Aayushi, So yes I have fallen for you and its been this much time it run forever cause no matter what none can replace your place in me !
+                        <div id="elapseClock"></div>
+                    </div>
+                    <div id="loveu">
+                        <div class="signature">by sarthak</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="copyright">
+            <a href="index.html">Return to our story</a>
+        </div>
+    </div>
+    <div class="next-step">
+        <button id="nextButton" class="next-button" type="button">Next <span>→</span></button>
+    </div>
+    <div id="feedbackModal" class="feedback-modal" role="dialog" aria-modal="true"
+        aria-labelledby="feedbackTitle" aria-describedby="feedbackText" hidden>
+        <div class="feedback-card">
+            <button id="feedbackClose" class="feedback-close" type="button" aria-label="Close">×</button>
+            <span class="feedback-sparkle">✦</span>
+            <h2 id="feedbackTitle">Did you like it, Aayushi?</h2>
+            <p id="feedbackText">This little universe was made just for you.</p>
+            <div id="feedbackActions" class="feedback-actions">
+                <button class="feedback-choice" type="button" data-answer="yes">Yes, I loved it</button>
+                <button class="feedback-choice feedback-choice-soft" type="button" data-answer="no">No</button>
+            </div>
+            <form id="feelingForm" class="feeling-form" hidden>
+                <label for="feelingInput">Tell me what you feel</label>
+                <textarea id="feelingInput" rows="3" maxlength="240" placeholder="Write from your heart..."></textarea>
+                <button class="feedback-submit" type="submit">Text me on Insta what you felt ♡</button>
+            </form>
+            <p id="feedbackResult" class="feedback-result" role="status" aria-live="polite"></p>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var offsetX;
+        var offsetY;
+        var together = new Date();
+        together.setFullYear(2026, 7, 14);
+        together.setHours(0, 0, 0, 0);
+
+        if (!document.createElement("canvas").getContext) {
+            var msg = document.createElement("div");
+            msg.id = "errorMsg";
+            msg.innerHTML = "Your browser does not support HTML5 canvas.";
+            document.body.appendChild(msg);
+            $("#code").css("display", "none");
+        } else {
+            function centerHeart() {
+                offsetX = $("#garden").width() / 2;
+                offsetY = $("#garden").height() / 2 - Math.min(55, $("#garden").height() * 0.12);
+            }
+            getHeartPoint = function (angle) {
+                var radians = angle / Math.PI;
+                var scale = Math.min(1, gardenCanvas.width / 670, gardenCanvas.height / 625);
+                var x = scale * 19.5 * (16 * Math.pow(Math.sin(radians), 3));
+                var y = scale * -20 * (13 * Math.cos(radians) - 5 * Math.cos(2 * radians) -
+                    2 * Math.cos(3 * radians) - Math.cos(4 * radians));
+                return [offsetX + x, offsetY + y];
+            };
+            centerHeart();
+            setTimeout(startHeartAnimation, 1500);
+            timeElapse(together);
+            setInterval(function () { timeElapse(together); }, 500);
+            adjustCodePosition();
+            $(window).resize(centerHeart);
+        }
+    </script>
+    <script type="text/javascript" src="js/heart-feedback.js"></script>
+</body>
+</html>
