@@ -6,13 +6,12 @@
     var closeButton = document.getElementById("feedbackClose");
     var actions = document.getElementById("feedbackActions");
     var feelingForm = document.getElementById("feelingForm");
-    var feelingInput = document.getElementById("feelingInput");
     var result = document.getElementById("feedbackResult");
     var title = document.getElementById("feedbackTitle");
     var text = document.getElementById("feedbackText");
     var previousFocus;
 
-    if (!nextButton || !modal || !closeButton || !actions || !feelingForm || !feelingInput || !result) {
+    if (!nextButton || !modal || !closeButton || !actions || !feelingForm || !result) {
         return;
     }
 
@@ -55,7 +54,6 @@
         if (confirm === "yes") {
             text.textContent = "That makes my heart so happy. One last little thing...";
             feelingForm.hidden = false;
-            feelingInput.focus();
         } else {
             text.textContent = "Aww babe, I will try better next time.";
             result.textContent = "I will keep making every chapter more beautiful for you ♡";
@@ -77,15 +75,6 @@
         } else if (choice) {
             confirmAnswer(choice.getAttribute("data-confirm"));
         }
-    });
-    feelingForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        result.textContent = feelingInput.value.trim()
-            ? "Thank you. Text me on Insta what you felt ♡"
-            : "Text me on Insta what you felt ♡";
-        feelingForm.hidden = true;
-        feelingInput.value = "";
-        closeButton.focus();
     });
     document.addEventListener("keydown", function (event) {
         if (event.key === "Escape" && !modal.hidden) {
