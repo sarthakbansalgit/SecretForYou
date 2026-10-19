@@ -41,6 +41,16 @@
                 <span class="letter-line">and every quiet moment we share.</span><br>
                 <span class="letter-ending">If life is a story, you are my favorite chapter. and always will</span>
             </div>
+            <a class="heart-next-cue" href="#loveHeart" aria-label="Scroll down to our heart">
+                <span>KEEP SCROLLING</span>
+                <strong aria-hidden="true">↓</strong>
+            </a>
+            <section class="heart-writing-card" aria-label="A space for your message">
+                <span class="writing-kicker">A page for your words</span>
+                <h2>Write something beautiful here</h2>
+                <p class="writing-prompt">Leave a little line for us — a thought, a promise, or a feeling you want to keep forever.</p>
+                <textarea aria-label="Write something beautiful" placeholder="Write from your heart..."></textarea>
+            </section>
             <div id="loveHeart">
                 <canvas id="garden"></canvas>
                 <div id="words">
@@ -96,11 +106,11 @@
         } else {
             function centerHeart() {
                 offsetX = $("#garden").width() / 2;
-                offsetY = $("#garden").height() / 2 - Math.min(55, $("#garden").height() * 0.12);
+                offsetY = $("#garden").height() / 2;
             }
             getHeartPoint = function (angle) {
                 var radians = angle / Math.PI;
-                var scale = Math.min(1.14, gardenCanvas.width / 670 * 1.14, gardenCanvas.height / 625 * 1.14);
+                var scale = Math.min(1.08, gardenCanvas.width / 670 * 1.08, gardenCanvas.height / 625 * 0.92);
                 var x = scale * 19.5 * (16 * Math.pow(Math.sin(radians), 3));
                 var y = scale * -20 * (13 * Math.cos(radians) - 5 * Math.cos(2 * radians) -
                     2 * Math.cos(3 * radians) - Math.cos(4 * radians));
