@@ -46,10 +46,10 @@
                 <strong aria-hidden="true">↓</strong>
             </a>
             <section class="heart-writing-card" aria-label="A space for your message">
-                <span class="writing-kicker">A page for your words</span>
-                <h2>Write something beautiful here</h2>
-                <p class="writing-prompt">Leave a little line for us — a thought, a promise, or a feeling you want to keep forever.</p>
-                <textarea aria-label="Write something beautiful" placeholder="Write from your heart..."></textarea>
+                <span class="writing-kicker">A few more words for you</span>
+                <p class="writing-line">Add your own beautiful line here.</p>
+                <p class="writing-line">Let every word feel like a little piece of forever.</p>
+                <p class="writing-signature">— from my heart to yours ♡</p>
             </section>
             <div id="loveHeart">
                 <canvas id="garden"></canvas>
@@ -110,7 +110,10 @@
             }
             getHeartPoint = function (angle) {
                 var radians = angle / Math.PI;
-                var scale = Math.min(1.08, gardenCanvas.width / 670 * 1.08, gardenCanvas.height / 625 * 0.92);
+                var isMobile = gardenCanvas.width < 600;
+                var size = isMobile ? 0.72 : 1.05;
+                var heightSize = isMobile ? 0.68 : 0.95;
+                var scale = Math.min(size, gardenCanvas.width / 670 * size, gardenCanvas.height / 625 * heightSize);
                 var x = scale * 19.5 * (16 * Math.pow(Math.sin(radians), 3));
                 var y = scale * -20 * (13 * Math.cos(radians) - 5 * Math.cos(2 * radians) -
                     2 * Math.cos(3 * radians) - Math.cos(4 * radians));
