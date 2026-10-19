@@ -8,6 +8,7 @@
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/garden.js"></script>
     <script type="text/javascript" src="js/functions.js"></script>
+    <script type="text/javascript" src="js/music-sync.js"></script>
 </head>
 <body class="heart-page">
     <audio id="heartSong" autoplay loop preload="auto">
@@ -143,20 +144,33 @@
                 label.textContent = isPlaying ? "Playing" : "Play song";
             }
             function tryToPlay() {
+                window.LoveMusicSync.claim("heart");
                 song.play().then(function () {
                     updateMusicState(true);
                 }).catch(function () {
+                    window.LoveMusicSync.release("heart");
                     updateMusicState(false);
                 });
             }
-            song.addEventListener("play", function () { updateMusicState(true); });
-            song.addEventListener("pause", function () { updateMusicState(false); });
+            song.addEventListener("play", function () {
+                window.LoveMusicSync.claim("heart");
+                updateMusicState(true);
+            });
+            song.addEventListener("pause", function () {
+                window.LoveMusicSync.release("heart");
+                updateMusicState(false);
+            });
             toggle.addEventListener("click", function () {
                 if (song.paused) {
                     tryToPlay();
                 } else {
                     song.pause();
                 }
+            });
+            window.LoveMusicSync.watch("heart", song);
+            window.addEventListener("pagehide", function () {
+                song.pause();
+                window.LoveMusicSync.release("heart");
             });
             tryToPlay();
         }());

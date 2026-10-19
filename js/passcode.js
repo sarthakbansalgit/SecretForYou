@@ -28,22 +28,35 @@
         if (!song) {
             return;
         }
+        window.LoveMusicSync.claim("timeline");
         song.play().then(function () {
             setMusicState(true);
         }).catch(function () {
+            window.LoveMusicSync.release("timeline");
             musicLabel.textContent = "Tap to play";
         });
     }
 
     if (song && musicToggle) {
-        song.addEventListener("play", function () { setMusicState(true); });
-        song.addEventListener("pause", function () { setMusicState(false); });
+        song.addEventListener("play", function () {
+            window.LoveMusicSync.claim("timeline");
+            setMusicState(true);
+        });
+        song.addEventListener("pause", function () {
+            window.LoveMusicSync.release("timeline");
+            setMusicState(false);
+        });
         musicToggle.addEventListener("click", function () {
             if (song.paused) {
                 playSong();
             } else {
                 song.pause();
             }
+        });
+        window.LoveMusicSync.watch("timeline", song);
+        window.addEventListener("pagehide", function () {
+            song.pause();
+            window.LoveMusicSync.release("timeline");
         });
     }
 
