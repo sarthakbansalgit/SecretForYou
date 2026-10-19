@@ -10,6 +10,13 @@
     <script type="text/javascript" src="js/functions.js"></script>
 </head>
 <body class="heart-page">
+    <audio id="heartSong" autoplay loop preload="auto">
+        <source src="LIGHT%20IT%20UP.mp3" type="audio/mpeg">
+    </audio>
+    <button id="heartMusicToggle" class="heart-music-toggle" type="button" aria-pressed="false"
+        aria-label="Play Light It Up">
+        <span aria-hidden="true">♫</span><span id="heartMusicLabel">Play song</span>
+    </button>
     <a class="back-to-gallery" href="index.html">← Back to our timeline</a>
     <header class="heart-heading">
         <span class="heart-eyebrow">OUR FAVORITE CHAPTER</span>
@@ -93,7 +100,7 @@
             }
             getHeartPoint = function (angle) {
                 var radians = angle / Math.PI;
-                var scale = Math.min(1, gardenCanvas.width / 670, gardenCanvas.height / 625);
+                var scale = Math.min(1.14, gardenCanvas.width / 670 * 1.14, gardenCanvas.height / 625 * 1.14);
                 var x = scale * 19.5 * (16 * Math.pow(Math.sin(radians), 3));
                 var y = scale * -20 * (13 * Math.cos(radians) - 5 * Math.cos(2 * radians) -
                     2 * Math.cos(3 * radians) - Math.cos(4 * radians));
@@ -106,6 +113,38 @@
             adjustCodePosition();
             $(window).resize(centerHeart);
         }
+
+        (function () {
+            var song = document.getElementById("heartSong");
+            var toggle = document.getElementById("heartMusicToggle");
+            var label = document.getElementById("heartMusicLabel");
+            if (!song || !toggle || !label) {
+                return;
+            }
+            function updateMusicState(isPlaying) {
+                toggle.classList.toggle("heart-music-playing", isPlaying);
+                toggle.setAttribute("aria-pressed", String(isPlaying));
+                toggle.setAttribute("aria-label", isPlaying ? "Pause Light It Up" : "Play Light It Up");
+                label.textContent = isPlaying ? "Playing" : "Play song";
+            }
+            function tryToPlay() {
+                song.play().then(function () {
+                    updateMusicState(true);
+                }).catch(function () {
+                    updateMusicState(false);
+                });
+            }
+            song.addEventListener("play", function () { updateMusicState(true); });
+            song.addEventListener("pause", function () { updateMusicState(false); });
+            toggle.addEventListener("click", function () {
+                if (song.paused) {
+                    tryToPlay();
+                } else {
+                    song.pause();
+                }
+            });
+            tryToPlay();
+        }());
     </script>
     <script type="text/javascript" src="js/heart-feedback.js"></script>
 </body>
