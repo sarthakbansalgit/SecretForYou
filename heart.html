@@ -111,8 +111,8 @@
             getHeartPoint = function (angle) {
                 var radians = angle / Math.PI;
                 var isMobile = gardenCanvas.width < 600;
-                var size = isMobile ? 0.72 : 1.05;
-                var heightSize = isMobile ? 0.68 : 0.95;
+                var size = isMobile ? 0.88 : 1.1;
+                var heightSize = isMobile ? 0.82 : 1;
                 var scale = Math.min(size, gardenCanvas.width / 670 * size, gardenCanvas.height / 625 * heightSize);
                 var x = scale * 19.5 * (16 * Math.pow(Math.sin(radians), 3));
                 var y = scale * -20 * (13 * Math.cos(radians) - 5 * Math.cos(2 * radians) -
