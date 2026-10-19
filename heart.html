@@ -11,7 +11,7 @@
     <script type="text/javascript" src="js/music-sync.js"></script>
 </head>
 <body class="heart-page">
-    <audio id="heartSong" autoplay loop preload="auto">
+    <audio id="heartSong" autoplay loop preload="auto" playsinline>
         <source src="LIGHT%20IT%20UP.mp3" type="audio/mpeg">
     </audio>
     <button id="heartMusicToggle" class="heart-music-toggle" type="button" aria-pressed="false"
@@ -142,16 +142,29 @@
                 toggle.classList.toggle("heart-music-playing", isPlaying);
                 toggle.setAttribute("aria-pressed", String(isPlaying));
                 toggle.setAttribute("aria-label", isPlaying ? "Pause Light It Up" : "Play Light It Up");
-                label.textContent = isPlaying ? "Playing" : "Play song";
+                label.textContent = isPlaying ? (song.muted ? "Tap for sound" : "Playing") : "Play song";
             }
             function tryToPlay() {
                 window.LoveMusicSync.claim("heart");
                 song.play().then(function () {
                     updateMusicState(true);
                 }).catch(function () {
-                    window.LoveMusicSync.release("heart");
-                    updateMusicState(false);
+                    song.muted = true;
+                    song.play().then(function () {
+                        updateMusicState(true);
+                    }).catch(function () {
+                        window.LoveMusicSync.release("heart");
+                        updateMusicState(false);
+                    });
                 });
+            }
+            function enableSound() {
+                if (song.paused) {
+                    tryToPlay();
+                    return;
+                }
+                song.muted = false;
+                updateMusicState(true);
             }
             song.addEventListener("play", function () {
                 window.LoveMusicSync.claim("heart");
@@ -163,10 +176,14 @@
             });
             toggle.addEventListener("click", function () {
                 if (song.paused) {
+                    song.muted = false;
                     tryToPlay();
                 } else {
                     song.pause();
                 }
+            });
+            ["pointerdown", "keydown", "touchstart"].forEach(function (eventName) {
+                window.addEventListener(eventName, enableSound, { once: true, passive: true });
             });
             window.LoveMusicSync.watch("heart", song);
             window.addEventListener("pagehide", function () {
